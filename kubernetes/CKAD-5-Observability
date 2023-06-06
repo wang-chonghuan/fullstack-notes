@@ -1,0 +1,100 @@
+k get all
+k get events
+k get logs -f
+k get logs -previous
+vim pod-distroless.yaml
+BOF
+apiVersion: v1
+kind: Pod
+metadata:
+  name: minimal-pod
+spec:
+  containers:
+  - image: k8s.gcr.io/pause:3.1
+  name: pause
+EOF
+#将运行图像业务箱的短暂容器添加到名为最小Pod的荚中，并为其打开交互式外壳
+kubectl debug -it minimal-pod --image=busybox
+ps -A
+#error: Metrics API not available
+minikube addons enable metrics-server
+kubectl top nodes
+kubectl top pod frontend
+
+#一次性容器
+w@kw-master:~/ckad/c5-observibility$ cat pod-shell.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: incorrect-cmd-pod
+spec:
+  containers:
+  - name: test-container
+    image: busybox
+    command: ["/bin/sh", "-c", "ls"]
+
+#readiness-probe
+w@kw-master:~/ckad/c5-observibility$ cat pod-readiness-probe.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: readiness-pod
+spec:
+  containers:
+  - image: bmuschko/nodejs-hello-world:1.0.0
+    name: hello-world
+    ports:
+    - name: nodejs-port
+      containerPort: 3000
+    readinessProbe:
+      httpGet:
+        path: /
+        port: nodejs-port
+      initialDelaySeconds: 2
+      periodSeconds: 8
+
+#pod-failing.yaml
+w@kw-master:~/ckad/c5-observibility$ cat pod-failing.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: failing-pod
+spec:
+  containers:
+  - args:
+    - /bin/sh
+    - -c
+    - while true; do echo $(date) >> ~/tmp/curr-date.txt; sleep 5; done;
+    image: busybox
+    name: failing-pod
+
+#distroless容器
+w@kw-master:~/ckad/c5-observibility$ cat pod-distroless.yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: minimal-pod
+spec:
+  containers:
+  - image: k8s.gcr.io/pause:3.1
+    name: pause
+
+
+#检测service的可访问性
+#首先获得它的集群IP和端口
+$ kubectl get services
+NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
+myservice ClusterIP 10.99.155.165 <none> 80/TCP 15m
+#然后启动一个临时busybox容器用wget去访问这个端口
+$ kubectl run tmp --image=busybox -it --rm -- wget -O- 10.99.155.165:80
+
+#检查服务的目标端口和容器的暴露端口是否一致
+$ kubectl get service myapp -o yaml | grep targetPort
+targetPort: 80
+$ kubectl get pods myapp-68bf896d89-qfhlv -o yaml | grep containerPort
+- containerPort: 80
+
+
+
+
+

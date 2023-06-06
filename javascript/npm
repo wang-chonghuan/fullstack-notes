@@ -1,0 +1,19 @@
+npm init
+npm install –save-dev typescript@4.7.4
+npm tsc
+
+npm install --save emailjs-imap-client@3.1.0
+npm install --save express@4.18.1
+npm install --save mailparser@3.5.0
+npm install --save nedb@1.8.0
+npm install --save nodemailer@6.7.7
+
+#definitelytyped.org
+#npm i redux react-redux @types/redux @types/react-redux
+npm install --save-dev @types/mailparser@3.4.0
+npm install --save-dev @types/nedb@1.8.12
+npm install --save-dev @types/node@18.6.0
+npm install --save-dev @types/nodemailer@6.4.4
+
+npm install --save-dev nodemon@2.0.19
+npm run compile

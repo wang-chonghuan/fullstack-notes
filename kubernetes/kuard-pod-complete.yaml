@@ -1,0 +1,42 @@
+# 把kuard部署到k8s上
+# 作用相当于该命令docker run -d --name kuard --publish 8080:8080 gcr.io/kuar-demo/kuard-amd64:blue
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard
+  annotations:
+    example.com/icon-url: "https://example.com/icon.png"
+spec:
+  volumns: #all volumns available in this pod
+    - name: "kuard-data"
+      hostPath:
+        path: "/var/lib/kuard"
+    - name: "kuard-data-nfs"
+      nfs:
+        server: my.nfs.server.local
+        path: "/exports"
+  containers:
+    - image: gcr.io/kuar-demo/kuard-amd64:blue
+      name: kuard
+      volumeMounts: #volumns mounted in this container
+        - mountPath: "/data"
+        name: "kuard-data"
+      resources:
+        requests:
+          cpu: "500m" #millicores
+          memory: "128Mi" #1MiB == 1000KiB
+        limits:
+          cpu: "1000m"
+          memory: "256Mi"
+      livenessProbe:
+        httpGet:
+          path: /healthy
+          port: 8080
+        initialDelaySeconds: 5
+        timeoutSeconds: 1
+        periodSeconds: 10
+        failureThreshold: 3
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP

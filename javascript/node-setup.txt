@@ -1,0 +1,15 @@
+###################################################################### 安装node
+# node
+su root
+adduser walt sudo
+sudo apt-get install curl
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+nvm --version 
+nvm ls-remote #win# nvm list available
+nvm install v10.24.1
+nvm ls
+nvm alias default 10.24.1 #win# nvm use 16.19.1
+node --version
+npm --version
+npm init
+npm install --save express

@@ -1,0 +1,40 @@
+###################################################################### 安装git
+
+#Copy the GitHub Personal Access Token and use this as the password when you do a Git push
+#把里面的?换成g
+jitlub zoken: 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
+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
+这个东西是github生成的，用它作为密码来push，不要用登陆密码了
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+git remote add origin "https://github.com/wang-chonghuan/mern-dating-frontend.git"
+git checkout -b main
+git remote show origin
+git push -u origin main
+
+PS D:\projs\platform\kubernetes-practice> git push -u origin main
+To https://github.com/wang-chonghuan/kubernetes-practice.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/wang-chonghuan/kubernetes-practice.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+PS D:\projs\platform\kubernetes-practice>_________________________________________解读
+ChatGPT
+这个错误提示表示你在尝试推送你的更改到远程仓库时，遇到了问题。具体的问题是：远程仓库（GitHub上的仓库）包含一些你本地仓库没有的更改。换句话说，有人或者一些进程已经推送了一些更改到远程仓库，而这些更改你还没有拉取到你的本地仓库。
+
+在你推送（push）你的更改之前，你需要先拉取（pull）这些新的更改。这可以通过运行git pull origin main命令来实现，这将拉取远程仓库的最新更改到你的本地仓库。
+
+如果在拉取（pull）新的更改时遇到任何合并冲突，你将需要解决这些冲突，然后提交解决冲突后的代码，再次尝试推送（push）你的更改。
+
+一旦你成功地拉取了新的更改，并且已经成功地合并和提交了这些更改，你就应该能够再次运行git push -u origin main，并成功地将你的更改推送到远程仓库。
+
+这个错误提示的含义是要求开发者注意在推送（push）自己的更改之前，确保他们的本地仓库是最新的，并包含了远程仓库中的所有更改。
+
+
