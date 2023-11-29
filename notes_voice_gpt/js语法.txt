@@ -1,0 +1,41 @@
+var findWinners = function(matches) {
+    let allPlayers = new Set();
+    let losers = new Map();
+    for(let match of matches) {
+        let [winner, loser] = match;
+        allPlayers.add(winner);
+        allPlayers.add(loser);
+        losers.set(loser, (losers.get(loser) || 0) + 1);
+    }
+    let undefeated = Array.from(allPlayers)
+        .filter((player) => !losers.get(player))
+        .sort((a, b) => a - b);
+    let oneLoss = Array.from(losers)
+        .filter(([player, losses]) => losses === 1)
+        .map(([player, losses]) => player)
+        .sort((a, b) => a - b);
+    return [undefeated, oneLoss];
+}
+———————————————————————
+let charFreq = {b: 0, a: 0, l: 0, o: 0, n: 0};
+charFreq.hasOwnProperty(char)
+charFreq[char]++;
+charFreq['l'] = Math.floor(charFreq['l'] / 2);
+Math.min(...Object.values(charFreq));
+return [...strToWords.values()];
+const key = [...str].sort().join('');
+————————————
+let minLen = Infinity;
+-Infinity
+此处不能用if(lastOccur)，否则会返回一个0，导致这里检测失败！
+if(numToLastOccur.has(cards[i])) {
+___________________________
+@param {number[][]} grid
+// 把一个数字转换成字符串，再拆成digit数组，再求digit和
+const digitSum = Array.from(String(num), Number).reduce((sum, num) => sum + num, 0);
+// 把一个数组转成字符串
+let rowStr = JSON.stringify(grid[i]);
+// 把矩阵的每列转成一个字符串
+for(let j = 0; j < n; j++) {
+    let colStr = JSON.stringify(grid.map(row => row[j]));
+
